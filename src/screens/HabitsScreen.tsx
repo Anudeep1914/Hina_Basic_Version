@@ -80,14 +80,14 @@ function HabitsScreen() {
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h1 className="text-2xl font-bold">Habits & Reminders</h1>
-          <p className="text-hina-pink font-semibold mt-1">
+          <h1 className="text-2xl font-bold gradient-text">Habits & Reminders</h1>
+          <p className="text-hina-pink font-semibold mt-1 animate-pulse">
             {todayLogs.length}/{habits.length} done today
           </p>
         </div>
         <button
           onClick={() => setShowAddForm(!showAddForm)}
-          className="px-4 py-2 bg-hina-pink text-white rounded-lg hover:bg-hina-pink/80 transition-colors flex items-center gap-2"
+          className="px-4 py-2 bg-gradient-to-r from-hina-pink to-hina-purple text-white rounded-lg transition-all duration-300 flex items-center gap-2 btn-3d"
         >
           <Plus size={18} />
           Add Habit
@@ -96,7 +96,7 @@ function HabitsScreen() {
 
       {/* Add Habit Form */}
       {showAddForm && (
-        <div className="bg-bg-card border border-border rounded-lg p-6 mb-6">
+        <div className="glass border border-border rounded-lg p-6 mb-6 card-3d animate-slide-in-up">
           <h3 className="text-lg font-semibold mb-4">Add New Habit</h3>
           <div className="grid grid-cols-2 gap-4 mb-4">
             <div>
@@ -167,11 +167,11 @@ function HabitsScreen() {
             {activeHabits.map((habit) => (
               <div
                 key={habit.id}
-                className="bg-bg-card border border-border rounded-lg p-4 hover:border-hina-pink/30 transition-colors"
+                className="glass border border-border rounded-lg p-4 transition-all duration-300 card-3d animate-slide-in-up"
               >
                 <div className="flex items-center gap-4">
                   <div
-                    className="w-12 h-12 rounded-full flex items-center justify-center text-2xl flex-shrink-0"
+                    className="w-12 h-12 rounded-full flex items-center justify-center text-2xl flex-shrink-0 animate-pulse-scale"
                     style={{ backgroundColor: habit.color + '20' }}
                   >
                     {habit.icon}
@@ -192,15 +192,15 @@ function HabitsScreen() {
                   <div className="flex gap-2">
                     <button
                       onClick={() => handleMarkDone(habit.id)}
-                      className="px-4 py-2 rounded-lg text-white font-medium transition-colors"
+                      className="px-4 py-2 rounded-lg text-white font-medium transition-all duration-300 btn-3d"
                       style={{ backgroundColor: habit.color }}
                     >
                       ✓ Did it
                     </button>
-                    <button className="px-3 py-2 bg-bg-input border border-border text-text-muted rounded-lg hover:border-hina-pink transition-colors">
+                    <button className="px-3 py-2 glass border border-border text-text-muted rounded-lg hover:border-hina-pink transition-all duration-300 hover:scale-110">
                       ⏰
                     </button>
-                    <button className="px-3 py-2 bg-bg-input border border-border text-text-muted rounded-lg hover:border-hina-pink transition-colors">
+                    <button className="px-3 py-2 glass border border-border text-text-muted rounded-lg hover:border-hina-pink transition-all duration-300 hover:scale-110">
                       ✕
                     </button>
                   </div>
@@ -239,7 +239,7 @@ function HabitsScreen() {
       {/* Weekly Grid */}
       <div>
         <h2 className="text-sm font-semibold text-text-secondary mb-4 uppercase">Weekly Progress</h2>
-        <div className="bg-bg-card border border-border rounded-lg p-6">
+        <div className="glass border border-border rounded-lg p-6 card-3d">
           <div className="grid grid-cols-8 gap-2 text-xs text-text-secondary mb-2">
             <div></div>
             <div className="text-center">Mon</div>
@@ -263,12 +263,12 @@ function HabitsScreen() {
                 return (
                   <div
                     key={i}
-                    className={`h-8 rounded flex items-center justify-center ${
+                    className={`h-8 rounded flex items-center justify-center transition-all duration-300 hover:scale-110 ${
                       log && log.done
-                        ? 'bg-green/30'
+                        ? 'bg-gradient-to-br from-green/40 to-green/20 animate-pulse-scale'
                         : isToday
-                        ? 'bg-hina-pink/20 border border-hina-pink'
-                        : 'bg-bg-input'
+                        ? 'glass border border-hina-pink animate-glow'
+                        : 'bg-bg-input hover:bg-bg-card'
                     }`}
                   >
                     {log && log.done && <Check size={14} className="text-green" />}
