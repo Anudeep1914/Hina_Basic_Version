@@ -46,22 +46,22 @@ function StatsScreen() {
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <div className="bg-bg-card border border-border rounded-lg p-6">
+        <div className="glass border border-border rounded-lg p-6 card-3d animate-slide-in-up" style={{ animationDelay: '0.1s' }}>
           <div className="text-text-secondary text-sm mb-2">Screen Time</div>
-          <div className="text-3xl font-bold text-blue mb-1">{formatTime(stats.screenTime)}</div>
+          <div className="text-3xl font-bold gradient-text mb-1">{formatTime(stats.screenTime)}</div>
           <div className="text-xs text-text-muted">+0% vs yesterday</div>
         </div>
-        <div className="bg-bg-card border border-border rounded-lg p-6">
+        <div className="glass border border-border rounded-lg p-6 card-3d animate-slide-in-up" style={{ animationDelay: '0.2s' }}>
           <div className="text-text-secondary text-sm mb-2">Tasks Completed</div>
           <div className="text-3xl font-bold text-green mb-1">{stats.tasksCompleted}</div>
           <div className="text-xs text-text-muted">Great job!</div>
         </div>
-        <div className="bg-bg-card border border-border rounded-lg p-6">
+        <div className="glass border border-border rounded-lg p-6 card-3d animate-slide-in-up" style={{ animationDelay: '0.3s' }}>
           <div className="text-text-secondary text-sm mb-2">Pomodoros</div>
           <div className="text-3xl font-bold text-hina-pink mb-1">{stats.pomodorosDone}</div>
           <div className="text-xs text-text-muted">Focus sessions</div>
         </div>
-        <div className="bg-bg-card border border-border rounded-lg p-6">
+        <div className="glass border border-border rounded-lg p-6 card-3d animate-slide-in-up" style={{ animationDelay: '0.4s' }}>
           <div className="text-text-secondary text-sm mb-2">Habits Done</div>
           <div className="text-3xl font-bold text-orange mb-1">{stats.habitsCompleted}</div>
           <div className="text-xs text-text-muted">Keep it up!</div>
@@ -69,14 +69,17 @@ function StatsScreen() {
       </div>
 
       {/* Hourly Activity Chart Placeholder */}
-      <div className="bg-bg-card border border-border rounded-lg p-6 mb-6">
-        <h2 className="text-lg font-semibold mb-4">Hourly Activity</h2>
+      <div className="glass border border-border rounded-lg p-6 mb-6 card-3d">
+        <h2 className="text-lg font-semibold mb-4 gradient-text">Hourly Activity</h2>
         <div className="h-48 flex items-end gap-2">
           {[...Array(14)].map((_, i) => {
             const height = Math.random() * 100
             return (
-              <div key={i} className="flex-1 flex flex-col items-center">
-                <div className="w-full bg-hina-pink/30 rounded-t" style={{ height: `${height}%` }}></div>
+              <div key={i} className="flex-1 flex flex-col items-center group">
+                <div
+                  className="w-full bg-gradient-to-t from-hina-pink to-hina-purple rounded-t transition-all duration-300 hover:from-hina-purple hover:to-blue"
+                  style={{ height: `${height}%` }}
+                ></div>
                 <div className="text-xs text-text-muted mt-2">{8 + i}</div>
               </div>
             )
@@ -85,8 +88,8 @@ function StatsScreen() {
       </div>
 
       {/* Activity Timeline */}
-      <div className="bg-bg-card border border-border rounded-lg p-6">
-        <h2 className="text-lg font-semibold mb-4">Activity Log</h2>
+      <div className="glass border border-border rounded-lg p-6 card-3d">
+        <h2 className="text-lg font-semibold mb-4 gradient-text">Activity Log</h2>
         <div className="text-text-muted text-center py-8">No activity recorded yet</div>
       </div>
     </div>

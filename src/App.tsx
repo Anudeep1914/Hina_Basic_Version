@@ -13,7 +13,7 @@ import SettingsScreen from './screens/SettingsScreen'
 function App() {
   return (
     <Router>
-      <div className="flex h-screen bg-bg-primary text-text-primary">
+      <div className="flex h-screen gradient-bg text-text-primary overflow-hidden">
         <Sidebar />
         <div className="flex-1 flex flex-col">
           <TopBar />

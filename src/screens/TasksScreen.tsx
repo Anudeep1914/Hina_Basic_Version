@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react'
 import { Check, Clock, Trash2, Plus } from 'lucide-react'
 import type { Task } from '../types'
+import Confetti from '../components/Confetti'
+import CircularProgress from '../components/CircularProgress'
 
 function TasksScreen() {
   const [tasks, setTasks] = useState<Task[]>([])
   const [newTaskTitle, setNewTaskTitle] = useState('')
   const [activeTab, setActiveTab] = useState<'tasks' | 'focus' | 'history'>('tasks')
   const [loading, setLoading] = useState(true)
+  const [showConfetti, setShowConfetti] = useState(false)
 
   useEffect(() => {
     loadTasks()
@@ -36,6 +39,9 @@ function TasksScreen() {
 
     await window.hina.completeTask(id)
     setTasks(tasks.map(t => t.id === id ? { ...t, done: true, completed_at: new Date().toISOString() } : t))
+
+    // Trigger confetti celebration
+    setShowConfetti(true)
 
     // Send to robot
     window.hina.sendToRobot({ cmd: 'task_complete' })
@@ -68,10 +74,12 @@ function TasksScreen() {
 
   return (
     <div className="p-6">
+      <Confetti active={showConfetti} onComplete={() => setShowConfetti(false)} />
+
       {/* Tabs */}
       <div className="flex gap-6 mb-6 border-b border-border">
         <button
-          className={`pb-3 px-1 text-sm font-medium transition-colors relative ${
+          className={`pb-3 px-1 text-sm font-medium transition-all duration-300 relative ${
             activeTab === 'tasks'
               ? 'text-hina-pink'
               : 'text-text-secondary hover:text-text-primary'
@@ -80,11 +88,11 @@ function TasksScreen() {
         >
           Tasks
           {activeTab === 'tasks' && (
-            <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-hina-pink"></div>
+            <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-hina-pink to-hina-purple animate-glow"></div>
           )}
         </button>
         <button
-          className={`pb-3 px-1 text-sm font-medium transition-colors relative ${
+          className={`pb-3 px-1 text-sm font-medium transition-all duration-300 relative ${
             activeTab === 'focus'
               ? 'text-hina-pink'
               : 'text-text-secondary hover:text-text-primary'
@@ -93,11 +101,11 @@ function TasksScreen() {
         >
           Focus
           {activeTab === 'focus' && (
-            <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-hina-pink"></div>
+            <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-hina-pink to-hina-purple animate-glow"></div>
           )}
         </button>
         <button
-          className={`pb-3 px-1 text-sm font-medium transition-colors relative ${
+          className={`pb-3 px-1 text-sm font-medium transition-all duration-300 relative ${
             activeTab === 'history'
               ? 'text-hina-pink'
               : 'text-text-secondary hover:text-text-primary'
@@ -106,7 +114,7 @@ function TasksScreen() {
         >
           History
           {activeTab === 'history' && (
-            <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-hina-pink"></div>
+            <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-hina-pink to-hina-purple animate-glow"></div>
           )}
         </button>
       </div>
@@ -122,11 +130,11 @@ function TasksScreen() {
               onChange={(e) => setNewTaskTitle(e.target.value)}
               onKeyPress={handleKeyPress}
               placeholder="+ Add a task..."
-              className="flex-1 bg-bg-input border border-border rounded-lg px-4 py-3 text-text-primary placeholder-text-muted focus:outline-none focus:border-hina-pink transition-colors"
+              className="flex-1 glass border border-border rounded-lg px-4 py-3 text-text-primary placeholder-text-muted focus:outline-none focus:border-hina-pink focus:shadow-lg focus:shadow-hina-pink/20 transition-all duration-300"
             />
             <button
               onClick={handleAddTask}
-              className="px-6 py-3 bg-hina-pink text-white rounded-lg hover:bg-hina-pink/80 transition-colors flex items-center gap-2"
+              className="px-6 py-3 bg-gradient-to-r from-hina-pink to-hina-purple text-white rounded-lg transition-all duration-300 flex items-center gap-2 btn-3d"
             >
               <Plus size={18} />
               Add
@@ -142,24 +150,24 @@ function TasksScreen() {
               {todoTasks.map((task) => (
                 <div
                   key={task.id}
-                  className="bg-bg-card border border-border rounded-lg p-4 hover:border-hina-pink/30 transition-colors group"
+                  className="glass border border-border rounded-lg p-4 transition-all duration-300 card-3d group animate-slide-in-up"
                 >
                   <div className="flex items-start gap-3">
                     <button
                       onClick={() => handleCompleteTask(task.id)}
-                      className="w-5 h-5 rounded-full border-2 border-text-muted hover:border-hina-pink transition-colors flex-shrink-0 mt-0.5"
+                      className="w-5 h-5 rounded-full border-2 border-text-muted hover:border-hina-pink hover:bg-hina-pink/10 transition-all duration-300 flex-shrink-0 mt-0.5 hover:scale-110"
                     ></button>
                     <div className="flex-1">
                       <h3 className="text-text-primary font-medium mb-2">{task.title}</h3>
                       <div className="flex items-center gap-4 text-xs">
                         {task.time_worked > 0 && (
-                          <span className="text-blue flex items-center gap-1">
+                          <span className="text-blue flex items-center gap-1 glass px-2 py-1 rounded">
                             <Clock size={12} />
                             {Math.floor(task.time_worked / 60)}m
                           </span>
                         )}
                         {task.priority && (
-                          <span className={`px-2 py-0.5 rounded ${
+                          <span className={`px-2 py-1 rounded glass ${
                             task.priority === 'high' ? 'bg-red/20 text-red' :
                             task.priority === 'medium' ? 'bg-orange/20 text-orange' :
                             'bg-green/20 text-green'
@@ -168,13 +176,13 @@ function TasksScreen() {
                           </span>
                         )}
                         {task.deadline && (
-                          <span className="text-orange">Due: {new Date(task.deadline).toLocaleDateString()}</span>
+                          <span className="text-orange glass px-2 py-1 rounded">Due: {new Date(task.deadline).toLocaleDateString()}</span>
                         )}
                       </div>
                     </div>
                     <button
                       onClick={() => handleDeleteTask(task.id)}
-                      className="opacity-0 group-hover:opacity-100 text-text-muted hover:text-red transition-all"
+                      className="opacity-0 group-hover:opacity-100 text-text-muted hover:text-red transition-all transform hover:scale-110"
                     >
                       <Trash2 size={16} />
                     </button>
@@ -229,33 +237,33 @@ function TasksScreen() {
       {/* Focus Tab */}
       {activeTab === 'focus' && (
         <div className="max-w-2xl mx-auto text-center">
-          <div className="mb-8">
-            <svg width="80" height="80" className="mx-auto mb-4">
-              <circle cx="40" cy="40" r="38" fill="none" stroke="#FF6B9D" strokeWidth="2" />
-              <circle cx="30" cy="35" r="3" fill="#FF6B9D" />
-              <circle cx="50" cy="35" r="3" fill="#FF6B9D" />
-              <path d="M 30 45 Q 40 50 50 45" fill="none" stroke="#FF6B9D" strokeWidth="2" strokeLinecap="round" />
-            </svg>
+          <div className="mb-8 flex justify-center">
+            <CircularProgress
+              progress={0}
+              size={280}
+              strokeWidth={12}
+              label="25:00"
+              sublabel="Pomodoro Session"
+            />
           </div>
-          <div className="text-6xl font-bold mb-8">25:00</div>
-          <select className="mb-6 bg-bg-input border border-border rounded-lg px-4 py-2 text-text-primary focus:outline-none focus:border-hina-pink">
+          <select className="mb-6 glass border border-border rounded-lg px-4 py-2 text-text-primary focus:outline-none focus:border-hina-pink transition-all duration-300">
             <option>No task selected</option>
             {todoTasks.map(task => (
               <option key={task.id} value={task.id}>{task.title}</option>
             ))}
           </select>
-          <div className="flex justify-center gap-4">
-            <button className="px-8 py-3 bg-hina-pink text-white rounded-lg hover:bg-hina-pink/80 transition-colors font-medium">
+          <div className="flex justify-center gap-4 flex-wrap">
+            <button className="px-8 py-3 bg-gradient-to-r from-hina-pink to-hina-purple text-white rounded-lg transition-all duration-300 font-medium btn-3d">
               Start Pomodoro
             </button>
-            <button className="px-6 py-3 bg-bg-card border border-border text-text-primary rounded-lg hover:border-hina-pink transition-colors">
+            <button className="px-6 py-3 glass border border-border text-text-primary rounded-lg hover:border-hina-pink transition-all duration-300 btn-3d">
               Short Break
             </button>
-            <button className="px-6 py-3 bg-bg-card border border-border text-text-primary rounded-lg hover:border-hina-pink transition-colors">
+            <button className="px-6 py-3 glass border border-border text-text-primary rounded-lg hover:border-hina-pink transition-all duration-300 btn-3d">
               Long Break
             </button>
           </div>
-          <p className="text-text-muted mt-6">Today's pomodoros: 0</p>
+          <p className="text-text-muted mt-6">Today's pomodoros: <span className="gradient-text font-semibold">0</span></p>
         </div>
       )}
 
